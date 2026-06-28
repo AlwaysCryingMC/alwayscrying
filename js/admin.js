@@ -10,11 +10,19 @@ let CFG = null;
 function loadCfg() { try { CFG = JSON.parse(localStorage.getItem(STORE) || "null"); } catch { CFG = null; } }
 function saveCfg(c) { localStorage.setItem(STORE, JSON.stringify(c)); CFG = c; }
 
-function showConfig() { qs("#configView").classList.remove("hidden"); qs("#editorView").classList.add("hidden"); }
+function showConfig() {
+  qs("#configView").classList.remove("hidden");
+  qs("#editorView").classList.add("hidden");
+  qs("#commentsView").classList.add("hidden");
+  qs("#mainTabs").classList.add("hidden");
+}
 function showEditor() {
   qs("#configView").classList.add("hidden");
+  qs("#commentsView").classList.add("hidden");
   qs("#editorView").classList.remove("hidden");
+  qs("#mainTabs").classList.remove("hidden");
   qs("#repoTag").textContent = `${CFG.owner}/${CFG.repo}`;
+  switchTab("posts");
   resetForm();
   loadList();
 }
@@ -237,4 +245,81 @@ async function del(slug) {
     toast("已删除 🗑️");
     loadList();
   } catch (e) { toast("删除失败：" + (e.message || e)); }
+}
+
+/* ---------- 评论管理（Giscus = GitHub Discussions，用 GraphQL）---------- */
+const TRASH_SVG = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>';
+
+async function gql(query, variables = {}) {
+  const res = await fetch("https://api.github.com/graphql", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${CFG.token}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ query, variables }),
+  });
+  const data = await res.json();
+  if (!res.ok || data.errors) throw new Error(data.errors?.[0]?.message || `HTTP ${res.status}`);
+  return data.data;
+}
+
+function switchTab(which) {
+  const posts = which === "posts";
+  qs("#editorView").classList.toggle("hidden", !posts);
+  qs("#commentsView").classList.toggle("hidden", posts);
+  qs("#tabPosts").className = "btn " + (posts ? "btn-primary" : "btn-outline") + " tab";
+  qs("#tabComments").className = "btn " + (!posts ? "btn-primary" : "btn-outline") + " tab";
+  if (!posts) loadComments();
+}
+
+qs("#tabPosts").addEventListener("click", () => switchTab("posts"));
+qs("#tabComments").addEventListener("click", () => switchTab("comments"));
+
+async function loadComments() {
+  const box = qs("#commentsBox");
+  box.innerHTML = `<p class="s">加载中…</p>`;
+  try {
+    const data = await gql(
+      `query($owner:String!,$repo:String!){ repository(owner:$owner,name:$repo){ discussions(first:100){ nodes { id title comments(first:100){ totalCount nodes { id body author { login } createdAt } } } } } }`,
+      { owner: CFG.owner, repo: CFG.repo }
+    );
+    let titleMap = {};
+    try { (await fetch("posts/index.json", { cache: "no-cache" }).then((r) => r.json())).forEach((p) => (titleMap[p.slug] = p.title)); } catch {}
+    const discs = ((data?.repository?.discussions?.nodes) || []).filter((d) => (d.comments.nodes || []).length);
+    if (!discs.length) {
+      box.innerHTML = `<div class="banner teal">还没有评论。访客在文章底部用 GitHub 账号留言后，会出现在这里（约 1 分钟同步）。</div>`;
+      return;
+    }
+    box.innerHTML = discs.map((d) => {
+      const slug = d.title;
+      const title = titleMap[slug] || slug;
+      const cs = d.comments.nodes;
+      return `<div class="panel" style="margin-bottom:1rem">
+        <div class="t" style="margin-bottom:.3rem">📝 ${escapeHtml(title)}</div>
+        <div class="s" style="margin-bottom:.6rem">${cs.length} 条评论 · ${escapeHtml(slug)}</div>
+        ${cs.map((c) => `
+          <div class="post-list-item" style="align-items:flex-start">
+            <div style="min-width:0">
+              <div class="s"><b>${escapeHtml(c.author?.login || "匿名")}</b> · ${formatDate(c.createdAt) || ""}</div>
+              <div class="s" style="margin-top:.3rem;white-space:pre-wrap;word-break:break-word">${escapeHtml((c.body || "").slice(0, 300))}${c.body && c.body.length > 300 ? "…" : ""}</div>
+            </div>
+            <button class="icon-btn danger" data-delcmt="${escapeHtml(c.id)}" title="删除评论" aria-label="删除评论">${TRASH_SVG}</button>
+          </div>`).join("")}
+      </div>`;
+    }).join("");
+    qsa("#commentsBox [data-delcmt]").forEach((b) => b.addEventListener("click", () => delComment(b.dataset.delcmt, b)));
+  } catch (e) {
+    box.innerHTML = `<div class="banner">读取评论失败：${escapeHtml(String(e.message || e))}<br><span class="s">常见原因：Token 没有 Discussions 读权限，或还没安装 Giscus 应用。</span></div>`;
+  }
+}
+
+async function delComment(id, btn) {
+  if (!confirm("确定删除这条评论？")) return;
+  if (btn) btn.disabled = true;
+  try {
+    await gql(`mutation($id:ID!){ deleteDiscussionComment(input:{id:$id}){ clientMutationId } }`, { id });
+    toast("评论已删除 🗑️");
+    loadComments();
+  } catch (e) {
+    toast("删除失败：" + (e.message || e) + "（确认 Token 有 Discussions 写权限）");
+    if (btn) btn.disabled = false;
+  }
 }
