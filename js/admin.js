@@ -30,7 +30,7 @@ function resetForm() {
    PASSWORD_HASH 是你密码的 SHA-256 十六进制哈希。
    用 make-password.html 生成后粘到这里（哈希可公开，明文密码不要写进代码）。
    留空 = 门禁未启用（任何人都能看到界面，仅靠 Token 保护）。*/
-const PASSWORD_HASH = "";
+const PASSWORD_HASH = "66bd57655c2b03a67b933766884869472579e76fac144b3553a3f1a6c879bb03";
 const UNLOCK_KEY = "ac_admin_unlock";
 
 const toHex = (buf) => [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
