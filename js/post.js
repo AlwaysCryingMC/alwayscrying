@@ -9,11 +9,11 @@ import {
    再把 enabled 改成 true，评论区就会出现。详见 README。
 */
 const GISCUS = {
-  enabled: false,
+  enabled: true,
   repo: "AlwaysCryingMC/alwayscrying",
-  repoId: "",            // 从 giscus.app 复制
+  repoId: "R_kgDOTHgJQQ",
   category: "Announcements",
-  categoryId: "",        // 从 giscus.app 复制
+  categoryId: "DIC_kwDOTHgJQc4DAE47",
 };
 
 /* ---------- 公共：菜单 & 年份 ---------- */
