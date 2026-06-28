@@ -52,6 +52,12 @@
         </div>
       </div>
 
+      <!-- 标签栏（配置完成后显示） -->
+      <div id="mainTabs" class="btn-row hidden" style="margin-bottom:1.2rem">
+        <button class="btn btn-primary tab" id="tabPosts">✍️ 写文章</button>
+        <button class="btn btn-outline tab" id="tabComments">💬 管评论</button>
+      </div>
+
       <!-- 配置（首次/无 Token 时） -->
       <div id="configView" class="editor-card hidden" style="max-width:580px">
         <div class="banner teal">
@@ -70,12 +76,12 @@
           <input id="branch" placeholder="main" value="main" />
         </div>
         <div class="field">
-          <label for="token">Personal Access Token（Fine-grained，仅本仓库 Contents 读写）</label>
+          <label for="token">Personal Access Token（Fine-grained，Contents 读+写；要删评论还需 Discussions 读+写）</label>
           <input id="token" type="password" placeholder="github_pat_..." />
         </div>
         <button class="btn btn-primary" id="saveCfg">保存配置</button>
         <p id="cfgMsg" class="banner hidden" style="margin-top:1.1rem;margin-bottom:0"></p>
-        <p class="s" style="margin-top:1rem;line-height:1.7">怎么生成 Token：GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens → 仅选 <code>alwayscrying</code> 仓库 → Permissions 里 Contents 选 <b>Read and write</b>。详见 README。</p>
+        <p class="s" style="margin-top:1rem;line-height:1.7">怎么生成 Token：GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens → 仅选 <code>alwayscrying</code> 仓库 → Permissions 里 <b>Contents</b> 选 Read and write；要管理评论再把 <b>Discussions</b> 也设为 Read and write。详见 README。</p>
       </div>
 
       <!-- 编辑器 -->
@@ -126,6 +132,16 @@
             </div>
           </form>
         </section>
+      </div>
+
+      <!-- 评论管理 -->
+      <div id="commentsView" class="hidden">
+        <div class="editor-card">
+          <h3 style="margin-bottom:.5rem">💬 评论管理</h3>
+          <p class="s" style="line-height:1.7">访客用 GitHub 账号在文章底部留言，评论存在仓库的 Discussions 里。这里列出所有评论，点 🗑 删除单条。</p>
+          <p class="s" style="margin:.6rem 0 1.2rem;line-height:1.7">⚠️ 需要 Token 有 <b>Discussions 读+写</b>权限。若读取或删除报错，去 GitHub Token 设置加上该权限，再回这里重新填 Token。</p>
+          <div id="commentsBox"><p class="s">点「💬 管评论」加载…</p></div>
+        </div>
       </div>
       </div><!-- /#appView -->
     </div>
