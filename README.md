@@ -12,7 +12,7 @@
 ## 目录结构
 
 ```
-alwayscrying-art/
+alwayscrying/
 ├── index.html          # 首页
 ├── blog.html           # 博客列表(标签筛选)
 ├── post.html           # 文章详情(读 ?id= 渲染 Markdown + 评论)
@@ -46,7 +46,7 @@ python -m http.server 8000
 
 ### 第 2 步:传到 GitHub
 
-1. 去 <https://github.com/new> 新建仓库,名字随便(比如 `alwayscrying-art`),**Public**,不要勾 README(我们自己传)。
+1. 去 <https://github.com/new> 新建仓库,名字随便(比如 `alwayscrying`),**Public**,不要勾 README(我们自己传)。
 2. 把 `AlwaysCrying-art` 文件夹里**所有文件**(含 CNAME、css/js/posts/assets 子文件夹)传上去:
    - 最简单:仓库页面点 **「uploading an existing file」** → 把文件夹里的东西**全选拖进去** → 提交。
    - 或用 git:`git init && git add . && git commit -m "init" && git remote add origin <你的仓库地址> && git push -u origin main`
@@ -57,7 +57,7 @@ python -m http.server 8000
 - **Source** 选 `Deploy from a branch`
 - **Branch** 选 `main` / `(root)` → 保存
 
-等 1-2 分钟,会得到一个 `https://alwayscryingmc.github.io/alwayscrying-art/` 的网址,打开就是你的网站!
+等 1-2 分钟,会得到一个 `https://alwayscryingmc.github.io/alwayscrying/` 的网址,打开就是你的网站!
 
 ### 第 4 步:绑定 alwayscrying.art
 
@@ -81,7 +81,7 @@ python -m http.server 8000
 ## 💬 配置评论(Giscus,一次性)
 
 1. 仓库 **Settings → 勾选 Discussions**(开启讨论区)
-2. 打开 <https://giscus.app/>,在「仓库」填 `AlwaysCryingMC/alwayscrying-art`(你的仓库),点安装 Giscus
+2. 打开 <https://giscus.app/>,在「仓库」填 `AlwaysCryingMC/alwayscrying`(你的仓库),点安装 Giscus
 3. 页面下面会让你选 mapping,选 **「特定术语」(specific term)**;再选一个 category(建议 `Announcements`)
 4. 它会生成一段配置,里面有 **`data-repo-id`** 和 **`data-category-id`**(两串字符)
 5. 打开 `js/post.js`,找到顶部的 `GISCUS` 配置,填进去:
@@ -89,7 +89,7 @@ python -m http.server 8000
    ```js
    const GISCUS = {
      enabled: true,                              // ← 改成 true
-     repo: "AlwaysCryingMC/alwayscrying-art",
+     repo: "AlwaysCryingMC/alwayscrying",
      repoId: "R_kgxxxxxx",                       // ← 从 giscus.app 复制
      category: "Announcements",
      categoryId: "DIC_kwxxxxxx",                 // ← 从 giscus.app 复制
@@ -111,10 +111,10 @@ python -m http.server 8000
 1. 打开 `你的网址/admin.html`(如 `https://alwayscrying.art/admin.html`)
 2. 生成一个 GitHub **Fine-grained Token**:
    - 打开 <https://github.com/settings/personal-access-tokens/new>
-   - **Repository access** → Only select repositories → 选 `alwayscrying-art`
+   - **Repository access** → Only select repositories → 选 `alwayscrying`
    - **Permissions → Repository permissions → Contents** → **Read and write**
    - 生成,复制那串 `github_pat_...`
-3. 回 `admin.html` 填:用户名 `AlwaysCryingMC`、仓库名 `alwayscrying-art`、分支 `main`、粘贴 Token → 保存
+3. 回 `admin.html` 填:用户名 `AlwaysCryingMC`、仓库名 `alwayscrying`、分支 `main`、粘贴 Token → 保存
 4. 在编辑器里写标题 / 正文 → **发布文章** → 几秒提交到仓库,约 1 分钟后 GitHub Pages 上线
 
 > 🔒 Token 只存在**你这台浏览器**的 localStorage,只发往 GitHub,不经过任何第三方。只给这一个仓库的 Contents 读写权限就很安全。**别截图 / 转发 Token。**

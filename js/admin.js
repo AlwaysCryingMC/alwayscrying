@@ -26,9 +26,58 @@ function resetForm() {
   qs("#published").checked = true;
 }
 
+/* ===== 后台密码门禁 =====
+   PASSWORD_HASH 是你密码的 SHA-256 十六进制哈希。
+   用 make-password.html 生成后粘到这里（哈希可公开，明文密码不要写进代码）。
+   留空 = 门禁未启用（任何人都能看到界面，仅靠 Token 保护）。*/
+const PASSWORD_HASH = "";
+const UNLOCK_KEY = "ac_admin_unlock";
+
+const toHex = (buf) => [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
+async function hashPw(s) {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
+  return toHex(buf);
+}
+
+const loginView = qs("#loginView");
+const appView = qs("#appView");
+let fails = 0;
+let lockedUntil = 0;
+
+function unlockApp() {
+  loginView.classList.add("hidden");
+  appView.classList.remove("hidden");
+  loadCfg();
+  if (CFG && CFG.token) showEditor(); else showConfig();
+}
+
+function initGate() {
+  const pwBtn = qs("#pwBtn");
+  const hint = qs("#pwHint");
+  if (!PASSWORD_HASH) {
+    hint.innerHTML = "⚠️ 后台密码还没设置：请打开 <code>make-password.html</code> 生成哈希，粘到 <code>js/admin.js</code> 的 <code>PASSWORD_HASH</code>，再提交到 GitHub。";
+    pwBtn.disabled = true;
+    return;
+  }
+  // 同一标签页已解锁过 → 免重输（关标签页失效）
+  if (sessionStorage.getItem(UNLOCK_KEY) === "1") { unlockApp(); return; }
+  qs("#pwInput").focus();
+}
+
+qs("#pwBtn").addEventListener("click", async () => {
+  if (Date.now() < lockedUntil) { toast(`等一会儿再试（${Math.ceil((lockedUntil - Date.now()) / 1000)}s）`); return; }
+  const ok = (await hashPw(qs("#pwInput").value)) === PASSWORD_HASH;
+  if (ok) { sessionStorage.setItem(UNLOCK_KEY, "1"); fails = 0; unlockApp(); toast("欢迎回来 ✨"); return; }
+  fails++;
+  if (fails >= 5) { lockedUntil = Date.now() + 30000; fails = 0; toast("错误次数过多，30 秒后再试"); }
+  else toast("密码不对，再试试");
+  qs("#pwInput").select();
+});
+
+qs("#pwInput").addEventListener("keydown", (e) => { if (e.key === "Enter") qs("#pwBtn").click(); });
+
 /* ---------- 启动 ---------- */
-loadCfg();
-if (CFG && CFG.token) showEditor(); else showConfig();
+initGate();
 
 /* ---------- 保存配置 ---------- */
 qs("#saveCfg").addEventListener("click", () => {

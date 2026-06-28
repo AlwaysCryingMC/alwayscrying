@@ -10,7 +10,7 @@ import {
 */
 const GISCUS = {
   enabled: false,
-  repo: "AlwaysCryingMC/alwayscrying-art",
+  repo: "AlwaysCryingMC/alwayscrying",
   repoId: "",            // 从 giscus.app 复制
   category: "Announcements",
   categoryId: "",        // 从 giscus.app 复制
