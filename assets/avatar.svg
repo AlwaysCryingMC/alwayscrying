@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" role="img" aria-label="AlwaysCrying 头像">
+  <defs>
+    <radialGradient id="bg" cx="35%" cy="25%" r="95%">
+      <stop offset="0%" stop-color="#fff4ee"/>
+      <stop offset="55%" stop-color="#ffe3ea"/>
+      <stop offset="100%" stop-color="#ffc6d8"/>
+    </radialGradient>
+    <linearGradient id="hair" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3a2356"/>
+      <stop offset="100%" stop-color="#241637"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="400" height="400" fill="url(#bg)"/>
+
+  <!-- 头发后部 -->
+  <ellipse cx="200" cy="196" rx="116" ry="132" fill="url(#hair)"/>
+
+  <!-- 脸 -->
+  <ellipse cx="200" cy="210" rx="88" ry="100" fill="#ffe5d6"/>
+  <!-- 耳朵 -->
+  <circle cx="114" cy="214" r="16" fill="#ffd9c9"/>
+  <circle cx="286" cy="214" r="16" fill="#ffd9c9"/>
+
+  <!-- 刘海 -->
+  <path d="M112 168c20-46 64-70 88-70s66 24 86 68c-30-26-58-30-86-6-26-22-58-18-88 8z" fill="url(#hair)"/>
+
+  <!-- 腮红 -->
+  <ellipse cx="150" cy="244" rx="20" ry="12" fill="#ff8fb0" opacity=".75"/>
+  <ellipse cx="250" cy="244" rx="20" ry="12" fill="#ff8fb0" opacity=".75"/>
+
+  <!-- 闭眼 -->
+  <path d="M156 214q14 16 30 0" fill="none" stroke="#241637" stroke-width="7" stroke-linecap="round"/>
+  <path d="M214 214q14 16 30 0" fill="none" stroke="#241637" stroke-width="7" stroke-linecap="round"/>
+
+  <!-- 一滴泪（呼应 AlwaysCrying） -->
+  <path d="M186 236c-6 10-14 18-14 28a14 14 0 0 0 28 0c0-10-8-18-14-28z" fill="#2ec4b6"/>
+  <circle cx="174" cy="258" r="3" fill="#bdf2ec" opacity=".9"/>
+
+  <!-- 小嘴 -->
+  <path d="M190 286q10 9 20 0" fill="none" stroke="#c8536b" stroke-width="6" stroke-linecap="round"/>
+</svg>

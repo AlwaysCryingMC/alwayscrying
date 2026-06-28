@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AlwaysCrying · 创作与胡思乱想</title>
+  <meta name="description" content="AlwaysCrying 的个人小角落 —— 创作者、写字、做梦。记录心情、设计与代码。" />
+  <meta name="author" content="AlwaysCrying" />
+  <meta property="og:title" content="AlwaysCrying · 创作与胡思乱想" />
+  <meta property="og:description" content="记录心情、设计与代码的个人博客。" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ============ 顶部导航 ============ -->
+  <header class="site-header">
+    <div class="wrap nav">
+      <a class="brand" href="/" aria-label="AlwaysCrying 首页">
+        <span class="mark">AC</span>
+        <span>AlwaysCrying<small>· .art</small></span>
+      </a>
+      <button class="nav-toggle" aria-label="菜单" aria-expanded="false"><span></span></button>
+      <nav class="nav-links" id="navLinks">
+        <a href="#top" class="active">首页</a>
+        <a href="#about">关于</a>
+        <a href="#blog">博客</a>
+        <a href="#contact">联系</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- ============ Hero ============ -->
+    <section class="hero">
+      <span class="blob b1"></span>
+      <span class="blob b2"></span>
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow reveal">创作者 · 写字 · 做梦</span>
+          <h1 class="display reveal" style="margin-top:1rem">
+            Hey!<br />
+            我是 <span class="name pink italic">AlwaysCrying</span>
+          </h1>
+          <p class="lead reveal">
+            一个把情绪揉进颜色与文字里的人。这是我的小角落 ——
+            记录心情、设计与代码，也欢迎你在这里停留一会儿。
+          </p>
+          <div class="btn-row reveal" style="margin-top:.4rem">
+            <a class="btn btn-primary" href="#blog">
+              读我的博客
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+            <a class="btn btn-outline" href="#contact">说句你好</a>
+          </div>
+        </div>
+
+        <div class="portrait reveal" aria-hidden="true">
+          <span class="ring ring-outer"></span>
+          <span class="ring ring-mid"></span>
+          <span class="ring ring-fill">
+            <!-- 把这行换成你的照片：<img src="assets/me.jpg" alt="AlwaysCrying" /> -->
+            <img src="assets/avatar.svg" alt="AlwaysCrying 头像" />
+          </span>
+          <span class="float-tag">.art</span>
+          <span class="badge"><span class="dot"></span> 正在创作中</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 滚动条 ============ -->
+    <div class="marquee" aria-hidden="true">
+      <div class="track">
+        <span>创作</span><span>胡思乱想</span><span>颜色</span><span>心情</span><span>代码</span><span>设计</span><span>梦境</span>
+        <span>创作</span><span>胡思乱想</span><span>颜色</span><span>心情</span><span>代码</span><span>设计</span><span>梦境</span>
+      </div>
+    </div>
+
+    <!-- ============ 关于 ============ -->
+    <section class="section" id="about">
+      <div class="wrap about-grid">
+        <div>
+          <span class="eyebrow reveal">关于我</span>
+          <h2 class="h1 reveal" style="margin-top:1rem">把日常的<span class="pink italic">细碎</span>，<br />写成值得回看的东西。</h2>
+        </div>
+        <div class="reveal">
+          <p class="lead">
+            我是 AlwaysCrying。白天写字、做点小设计，晚上胡思乱想。
+            相信柔软也是一种力量，哭泣也可以是温柔的。
+          </p>
+          <p class="lead" style="margin-top:1rem">
+            这个网站用纯 HTML/CSS/JS 搭起来，博客跑在 GitHub Pages 上 ——
+            没有花哨的框架，只是想把每一篇文章都安稳地存好。
+          </p>
+          <div class="chips">
+            <span class="chip pink">写作</span>
+            <span class="chip teal">设计</span>
+            <span class="chip grape">前端</span>
+            <span class="chip">摄影</span>
+            <span class="chip">音乐</span>
+          </div>
+          <div class="stat-grid">
+            <div class="stat"><b id="statPosts">—</b><span>篇文章</span></div>
+            <div class="stat"><b>∞</b><span>杯咖啡</span></div>
+            <div class="stat"><b>2026</b><span>开始记录</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 最新文章 ============ -->
+    <section class="section" id="blog" style="padding-top:0">
+      <div class="wrap">
+        <div class="blog-head">
+          <div>
+            <span class="eyebrow reveal">最新文章</span>
+            <h2 class="h1 reveal" style="margin-top:1rem">来自<span class="pink italic">小角落</span>的近作</h2>
+          </div>
+          <a class="btn btn-ghost reveal" href="blog.html">查看全部
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+        <div class="cards" id="latestCards">
+          <div class="skeleton card-s"></div>
+          <div class="skeleton card-s"></div>
+          <div class="skeleton card-s"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 联系 ============ -->
+    <section class="section" id="contact" style="padding-top:0">
+      <div class="wrap">
+        <div class="contact-card reveal">
+          <span class="blob b1"></span>
+          <span class="blob b2"></span>
+          <span class="eyebrow" style="color:var(--pink)">保持联系</span>
+          <h2 class="h2">想聊聊？<br />随时找我。</h2>
+          <p class="lead">无论是合作、问候，还是只想分享一首歌，都很欢迎。</p>
+          <div class="contact-list">
+            <a class="contact-item" href="https://github.com/AlwaysCryingMC/" target="_blank" rel="noopener">
+              <span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12 11.5 11.5 0 0 0 8.4 23c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 5 18 5.3 18 5.3c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg></span>
+              <span><small>GitHub</small><b>AlwaysCryingMC</b></span>
+            </a>
+            <a class="contact-item" href="mailto:ytchatoyant@gmail.com">
+              <span class="ico g"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+              <span><small>Email</small><b>ytchatoyant@gmail.com</b></span>
+            </a>
+            <a class="contact-item" href="tencent://message/?uin=3961076988" target="_blank" rel="noopener">
+              <span class="ico b"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.3 2 2 5.9 2 10.7c0 2.7 1.5 5.1 3.8 6.7-.1 1-.6 2.4-1.5 3.4 1.6-.2 3.2-.8 4.3-1.6.9.3 1.9.4 2.9.4 5.7 0 10-3.9 10-8.6S17.7 2 12 2Z"/></svg></span>
+              <span><small>QQ</small><b>3961076988</b></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ 页脚 ============ -->
+  <footer class="site-footer">
+    <div class="wrap footer-row">
+      <p class="copy">© <span id="year"></span> AlwaysCrying · 用 GitHub Pages 认真存好每一篇文章</p>
+      <div class="socials">
+        <a href="https://github.com/AlwaysCryingMC/" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12 11.5 11.5 0 0 0 8.4 23c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 5 18 5.3 18 5.3c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
+        </a>
+        <a href="mailto:ytchatoyant@gmail.com" aria-label="Email" title="Email">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        </a>
+        <a href="tencent://message/?uin=3961076988" target="_blank" rel="noopener" aria-label="QQ" title="QQ">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.3 2 2 5.9 2 10.7c0 2.7 1.5 5.1 3.8 6.7-.1 1-.6 2.4-1.5 3.4 1.6-.2 3.2-.8 4.3-1.6.9.3 1.9.4 2.9.4 5.7 0 10-3.9 10-8.6S17.7 2 12 2Z"/></svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="js/home.js"></script>
+</body>
+</html>

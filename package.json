@@ -1,0 +1,9 @@
+{
+  "name": "alwayscrying-art",
+  "version": "1.0.0",
+  "description": "AlwaysCrying 个人网站（GitHub Pages 静态博客 + Giscus 评论）",
+  "private": true,
+  "scripts": {
+    "serve": "npx serve ."
+  }
+}

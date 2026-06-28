@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>发布文章 · AlwaysCrying</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav">
+      <a class="brand" href="/" aria-label="AlwaysCrying 首页">
+        <span class="mark">AC</span>
+        <span>AlwaysCrying<small>· .art</small></span>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html">首页</a>
+        <a href="blog.html">博客</a>
+        <a href="admin.html" class="active">发布</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="wrap">
+      <div class="toolbar">
+        <div>
+          <span class="eyebrow">作者工具</span>
+          <h1 class="h3" style="margin-top:.4rem">发布 / 编辑文章</h1>
+        </div>
+        <div class="btn-row">
+          <span id="repoTag" class="chip grape"></span>
+          <button class="btn btn-outline" id="clearBtn">清除配置</button>
+        </div>
+      </div>
+
+      <!-- 配置（首次/无 Token 时） -->
+      <div id="configView" class="editor-card hidden" style="max-width:580px">
+        <div class="banner teal">
+          用 GitHub Token 在浏览器里直接发文章，写进你的仓库。Token 只存在<b>你这台浏览器</b>里，只发往 GitHub，不经过任何第三方。
+        </div>
+        <div class="field">
+          <label for="owner">GitHub 用户名</label>
+          <input id="owner" placeholder="AlwaysCryingMC" />
+        </div>
+        <div class="field">
+          <label for="repo">仓库名</label>
+          <input id="repo" placeholder="alwayscrying-art" />
+        </div>
+        <div class="field">
+          <label for="branch">分支</label>
+          <input id="branch" placeholder="main" value="main" />
+        </div>
+        <div class="field">
+          <label for="token">Personal Access Token（Fine-grained，仅本仓库 Contents 读写）</label>
+          <input id="token" type="password" placeholder="github_pat_..." />
+        </div>
+        <button class="btn btn-primary" id="saveCfg">保存配置</button>
+        <p id="cfgMsg" class="banner hidden" style="margin-top:1.1rem;margin-bottom:0"></p>
+        <p class="s" style="margin-top:1rem;line-height:1.7">怎么生成 Token：GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens → 仅选 <code>alwayscrying-art</code> 仓库 → Permissions 里 Contents 选 <b>Read and write</b>。详见 README。</p>
+      </div>
+
+      <!-- 编辑器 -->
+      <div id="editorView" class="admin-shell hidden">
+        <aside class="admin-side">
+          <div class="panel">
+            <h3 style="margin-bottom:.8rem">仓库里的文章</h3>
+            <p class="s" style="margin-bottom:.8rem">点文章可载入编辑，点 🗑 删除</p>
+            <div id="postList"><p class="s">加载中…</p></div>
+          </div>
+        </aside>
+
+        <section class="editor-card">
+          <form id="editForm">
+            <div class="field">
+              <label for="title">标题</label>
+              <input id="title" required placeholder="给这篇文章起个名字" />
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="date">日期</label>
+                <input id="date" type="date" />
+              </div>
+              <div class="field">
+                <label for="slug">slug（网址标识，留空自动生成）</label>
+                <input id="slug" placeholder="自动" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="tags">标签（逗号分隔，如：日记, 心情）</label>
+              <input id="tags" placeholder="日记, 心情" />
+            </div>
+            <div class="field">
+              <label for="excerpt">摘要（卡片上显示的一句话）</label>
+              <textarea id="excerpt" placeholder="一句话吸引人点进来"></textarea>
+            </div>
+            <div class="field">
+              <label for="content">正文（Markdown）</label>
+              <textarea id="content" class="tall" placeholder="# 标题&#10;&#10;在这里开始写..."></textarea>
+            </div>
+            <div class="field-row" style="align-items:center">
+              <label class="switch"><input type="checkbox" id="published" checked /> 发布（公开可见）</label>
+            </div>
+            <div class="btn-row" style="margin-top:.5rem">
+              <button type="submit" class="btn btn-primary" id="pubBtn">发布文章</button>
+              <button type="button" class="btn btn-outline" id="resetBtn">清空表单</button>
+              <span id="pubHint" class="s"></span>
+            </div>
+          </form>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-row">
+      <p class="copy">© <span id="year"></span> AlwaysCrying · 前端发布工具</p>
+    </div>
+  </footer>
+
+  <script type="module" src="js/admin.js"></script>
+</body>
+</html>

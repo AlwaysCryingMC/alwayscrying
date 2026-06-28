@@ -1,0 +1,26 @@
+[
+  {
+    "slug": "welcome",
+    "title": "欢迎来到 AlwaysCrying.art",
+    "date": "2026-06-20",
+    "tags": ["日记", "公告"],
+    "excerpt": "这是我用 GitHub Pages 搭起来的小角落。在这里我会记录一些零碎的心情、设计与创作。",
+    "published": true
+  },
+  {
+    "slug": "moody-colors",
+    "title": "关于这套粉青紫配色的胡思乱想",
+    "date": "2026-06-12",
+    "tags": ["设计", "想法"],
+    "excerpt": "为什么一个叫 AlwaysCrying 的人会用粉色和青色？大概是因为哭泣也可以是温柔的。",
+    "published": true
+  },
+  {
+    "slug": "how-this-site-works",
+    "title": "这个网站是怎么搭起来的",
+    "date": "2026-06-05",
+    "tags": ["代码", "技术"],
+    "excerpt": "纯 HTML/CSS/JS + GitHub Pages + Giscus 评论，没有花哨的框架，记录一下思路。",
+    "published": true
+  }
+]
