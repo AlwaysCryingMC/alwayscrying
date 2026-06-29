@@ -1,16 +1,5 @@
 [
   {
-    "slug": "welcome",
-    "title": "欢迎来到 AlwaysCrying.art",
-    "date": "2026-06-20",
-    "tags": [
-      "日记",
-      "公告"
-    ],
-    "excerpt": "这是我用 GitHub Pages 搭起来的小角落。在这里我会记录一些零碎的心情、设计与创作。",
-    "published": true
-  },
-  {
     "slug": "moody-colors",
     "title": "关于这套粉青紫配色的胡思乱想",
     "date": "2026-06-12",
