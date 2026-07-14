@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>赞助 · AlwaysCrying</title>
+  <meta name="description" content="支持 AlwaysCrying 的创作" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/store.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav">
+      <a class="brand" href="/"><span class="mark">AC</span><span>AlwaysCrying<small>· .art</small></span></a>
+      <button class="nav-toggle" aria-label="菜单"><span></span></button>
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html">首页</a>
+        <a href="blog.html">博客</a>
+        <a href="store.html">商店</a>
+        <a href="sponsor.html" class="active">赞助</a>
+        <a href="admin.html">后台</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="wrap" style="max-width:600px;text-align:center">
+      <h1>❤️ 赞助</h1>
+      <p>如果你喜欢我的作品，欢迎请我喝杯咖啡 ☕</p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0">
+        <div class="editor-card" style="text-align:center">
+          <h3>💚 微信支付</h3>
+          <div class="qr-box" style="margin:1rem auto">
+            <img src="assets/pay-qr.jpg" alt="微信支付" style="width:100%;height:100%;object-fit:contain" />
+          </div>
+          <p class="s">扫描二维码赞助</p>
+        </div>
+        <div class="editor-card" style="text-align:center">
+          <h3>💙 支付宝</h3>
+          <div class="qr-box" style="margin:1rem auto">
+            <img src="assets/pay-qr.jpg" alt="支付宝" style="width:100%;height:100%;object-fit:contain" />
+          </div>
+          <p class="s">扫描二维码赞助</p>
+        </div>
+      </div>
+
+      <div class="editor-card" style="text-align:center;margin-top:2rem">
+        <h3>🌟 赞助名单</h3>
+        <div id="sponsorList">
+          <p class="s">加载中…</p>
+        </div>
+        <p class="s" style="margin-top:1rem">感谢每一位支持者！</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap"><p>&copy; 2026 AlwaysCrying</p></div>
+  </footer>
+
+  <script>
+    // Load sponsors from store data
+    fetch('https://raw.githubusercontent.com/AlwaysCryingMC/alwayscrying/main/data/store.json')
+      .then(r => r.json()).then(d => {
+        const sponsors = d.sponsors || [];
+        document.getElementById('sponsorList').innerHTML = sponsors.length
+          ? sponsors.map(s => `<p>${s.name || s} ${s.amount ? '· ¥'+s.amount : ''} ${s.message ? '—— '+s.message : ''}</p>`).join('')
+          : '<p class="s">暂无赞助记录，成为第一个赞助者吧！</p>';
+      }).catch(() => { document.getElementById('sponsorList').innerHTML = '<p class="s">暂无数据</p>'; });
+  </script>
+</body>
+</html>
