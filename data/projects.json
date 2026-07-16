@@ -1,0 +1,17 @@
+{
+  "projects": [
+    {
+      "name": "AlwaysCrying.art",
+      "description": "个人博客网站，纯 HTML/CSS/JS 构建，托管于 GitHub Pages。记录心情、设计与代码，支持 Markdown 发布与评论系统。",
+      "category": "网站",
+      "type": "前端",
+      "language": "JavaScript",
+      "framework": "GitHub Pages",
+      "status": "active",
+      "icon": "🎨",
+      "stars": 1,
+      "colors": ["#ff5c8a", "#7b5cff"],
+      "url": "https://alwayscrying.art"
+    }
+  ]
+}
