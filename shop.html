@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AuroraNEL · 永久授权 — AlwaysCrying</title>
+  <meta name="description" content="AuroraNEL 网易我的世界盒子 · 限时特惠 ¥0.01 永久授权" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* Shop-specific — 复用 design system tokens */
+    .shop-hero {
+      text-align: center;
+      padding: clamp(3rem, 7vw, 5rem) 0 clamp(1.5rem, 3vw, 2.5rem);
+    }
+    .shop-hero h1 {
+      font-family: var(--f-display);
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      line-height: 1.1;
+      margin-bottom: .5rem;
+    }
+    .shop-hero .lead {
+      color: var(--ink-soft);
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .shop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: clamp(1.5rem, 3vw, 2.5rem);
+      padding-block: clamp(1rem, 3vw, 2rem);
+    }
+    .product-card {
+      background: var(--paper);
+      border-radius: var(--radius);
+      padding: clamp(1.5rem, 3vw, 2.2rem);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+      transition: transform .35s var(--ease), box-shadow .35s var(--ease);
+    }
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-pink);
+    }
+    .product-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--pink), var(--grape));
+    }
+    .product-badge {
+      display: inline-flex; align-items: center; gap: .4rem;
+      padding: .3rem .9rem;
+      background: var(--pink-soft);
+      color: var(--pink-deep);
+      border-radius: 99px;
+      font-size: .75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 1.2rem;
+    }
+    .product-name {
+      font-family: var(--f-display);
+      font-size: 1.5rem;
+      margin-bottom: .3rem;
+    }
+    .product-price {
+      font-family: var(--f-display);
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--pink);
+      margin: 1rem 0;
+    }
+    .product-price .currency {
+      font-size: 1rem;
+      color: var(--muted);
+      vertical-align: super;
+      margin-right: .1rem;
+    }
+    .product-price .original {
+      font-size: 1rem;
+      color: var(--muted);
+      text-decoration: line-through;
+      margin-left: .5rem;
+      font-weight: 400;
+      font-family: var(--f-body);
+    }
+    .product-features {
+      text-align: left;
+      margin: 1.5rem 0;
+    }
+    .product-features li {
+      display: flex;
+      align-items: flex-start;
+      padding: .4rem 0;
+      font-size: .92rem;
+      color: var(--ink-soft);
+    }
+    .product-features .icon {
+      color: var(--teal);
+      margin-right: 10px;
+      flex-shrink: 0;
+      font-weight: 700;
+    }
+    .btn-buy {
+      display: block;
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(135deg, var(--pink), var(--grape));
+      color: #fff;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 1.02rem;
+      transition: all .3s var(--ease);
+      box-shadow: var(--shadow-pink);
+    }
+    .btn-buy:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px -8px rgba(255,92,138,.6);
+    }
+    .btn-buy:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      transform: none;
+    }
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(36,22,55,.65);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: var(--gut);
+    }
+    .modal-overlay.show { display: flex; }
+    .modal {
+      background: var(--paper);
+      border-radius: var(--radius);
+      padding: clamp(1.5rem, 3vw, 2.5rem);
+      max-width: 420px;
+      width: 100%;
+      position: relative;
+      animation: modalIn .4s var(--ease);
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(.95) translateY(14px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .modal-close {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: var(--cream-2);
+      display: grid; place-items: center;
+      cursor: pointer;
+      transition: background .25s;
+      font-size: 1.1rem;
+      color: var(--muted);
+    }
+    .modal-close:hover { background: var(--line); color: var(--ink); }
+    .modal h3 {
+      font-family: var(--f-display);
+      font-size: 1.4rem;
+      margin-bottom: .3rem;
+    }
+    .modal .modal-sub {
+      color: var(--ink-soft);
+      font-size: .92rem;
+      margin-bottom: 1rem;
+    }
+    .modal .qr-amount {
+      font-family: var(--f-display);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--pink);
+      text-align: center;
+      margin: .5rem 0;
+    }
+    .qr-box {
+      background: #fff;
+      border-radius: var(--radius-sm);
+      padding: 1.2rem;
+      margin: 1rem 0;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .qr-box img {
+      max-width: 190px;
+      height: auto;
+      border-radius: 6px;
+    }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    .form-group label {
+      display: block;
+      font-size: .85rem;
+      color: var(--muted);
+      margin-bottom: .45rem;
+    }
+    .form-group input {
+      width: 100%;
+      padding: .75rem 1rem;
+      border: 1.5px solid var(--line);
+      border-radius: var(--radius-sm);
+      font-size: .95rem;
+      font-family: var(--f-body);
+      background: var(--cream);
+      transition: border-color .25s;
+    }
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--pink);
+    }
+    .status-msg {
+      padding: .7rem 1rem;
+      border-radius: var(--radius-sm);
+      font-size: .86rem;
+      margin-top: 1rem;
+      display: none;
+    }
+    .status-msg.show { display: block; }
+    .status-msg.info { background: var(--teal-soft); color: var(--teal-deep); }
+    .status-msg.success { background: #d4edda; color: #155724; }
+    .status-msg.error { background: #f8d7da; color: #721c24; }
+    .key-display {
+      background: var(--grape-soft);
+      border: 1.5px dashed var(--grape);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      margin: 1rem 0;
+      font-family: 'Courier New', monospace;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--grape);
+      text-align: center;
+      word-break: break-all;
+      user-select: all;
+      display: none;
+    }
+    .key-display.show { display: block; }
+    .timer {
+      text-align: center;
+      color: var(--muted);
+      font-size: .85rem;
+      margin-top: .5rem;
+    }
+    /* Order query */
+    .order-query {
+      text-align: center;
+      padding: clamp(2rem, 4vw, 3.5rem) 0;
+    }
+    .order-query h2 {
+      font-family: var(--f-display);
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      margin-bottom: 1rem;
+    }
+    .order-query .lead {
+      max-width: 400px;
+      margin: 0 auto 1.5rem;
+    }
+    .query-form {
+      display: flex;
+      gap: .6rem;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+    .query-form input {
+      flex: 1;
+      padding: .75rem 1rem;
+      border: 1.5px solid var(--line);
+      border-radius: 999px;
+      font-size: .92rem;
+      font-family: var(--f-body);
+      background: var(--cream);
+    }
+    .query-form input:focus { outline: none; border-color: var(--pink); }
+    .btn-query {
+      padding: .75rem 1.5rem;
+      background: var(--ink);
+      color: var(--cream);
+      border-radius: 999px;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: all .25s var(--ease);
+    }
+    .btn-query:hover {
+      background: var(--pink);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+    /* Footer */
+    .shop-footer {
+      text-align: center;
+      padding: clamp(2rem, 4vw, 3rem) 0;
+      color: var(--muted);
+      font-size: .85rem;
+    }
+    .shop-footer a { color: var(--pink-deep); text-decoration: underline; text-underline-offset: 3px; }
+    .shop-footer a:hover { color: var(--pink); }
+    /* Mobile */
+    @media (max-width: 640px) {
+      .query-form { flex-direction: column; }
+      .btn-query { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="wrap nav">
+      <a class="brand" href="/">
+        <span class="mark">AC</span>
+        <span>AlwaysCrying<small>· .art</small></span>
+      </a>
+      <button class="nav-toggle" aria-label="菜单" aria-expanded="false"><span></span></button>
+      <nav class="nav-links" id="navLinks">
+        <a href="/">首页</a>
+        <a href="/#about">关于</a>
+        <a href="/#blog">博客</a>
+        <a href="projects.html">项目</a>
+        <a href="/#contact">联系</a>
+        <a href="shop.html" class="active" style="color:var(--pink)">商店</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="shop-hero">
+      <div class="wrap">
+        <span class="eyebrow center">🦅 AuroraNEL Shop</span>
+        <h1>网易我的世界盒子<br /><span class="pink italic">永久授权</span></h1>
+        <p class="lead">一次购买 · 终身使用 · 自动更新 · 专属技术支持</p>
+      </div>
+    </section>
+
+    <!-- Products -->
+    <section class="wrap">
+      <div class="shop-grid">
+        <div class="product-card">
+          <span class="product-badge">🔥 限时特惠</span>
+          <h2 class="product-name">AuroraNEL 永久授权</h2>
+          <div class="product-price">
+            <span class="currency">¥</span>0.01
+            <span class="original">¥99.00</span>
+          </div>
+          <ul class="product-features">
+            <li><span class="icon">✓</span> 永久授权，终身使用</li>
+            <li><span class="icon">✓</span> 支持网易MC全版本</li>
+            <li><span class="icon">✓</span> 自动更新，持续维护</li>
+            <li><span class="icon">✓</span> 专属技术支持群</li>
+            <li><span class="icon">✓</span> 7×24h 自动发货</li>
+          </ul>
+          <button class="btn-buy" onclick="openBuyModal()">立即购买</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Order Query -->
+    <section class="order-query">
+      <div class="wrap">
+        <h2>查询订单</h2>
+        <p class="lead">输入下单时的邮箱，查询订单状态和卡密</p>
+        <form class="query-form" onsubmit="queryOrder(event)">
+          <input type="email" id="queryEmail" placeholder="your@email.com" required>
+          <button type="submit" class="btn-query">查询</button>
+        </form>
+        <div class="status-msg" id="queryStatus"></div>
+        <div class="key-display" id="queryKey"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Buy Modal -->
+  <div class="modal-overlay" id="buyModal">
+    <div class="modal">
+      <div class="modal-close" onclick="closeBuyModal()">✕</div>
+      <h3>🦅 AuroraNEL 永久授权</h3>
+      <p class="modal-sub">支付 ¥0.01 即可获得永久激活码</p>
+
+      <div class="form-group">
+        <label for="buyerEmail">邮箱（用于接收卡密，可选）</label>
+        <input type="email" id="buyerEmail" placeholder="your@email.com">
+      </div>
+
+      <div class="qr-amount">¥0.01 CNY</div>
+
+      <div class="qr-box">
+        <img id="qrImage" src="" alt="支付二维码">
+      </div>
+
+      <p class="timer" id="qrTimer">请在 5:00 内完成支付</p>
+
+      <div class="status-msg" id="buyStatus"></div>
+      <div class="key-display" id="buyKey"></div>
+
+      <button class="btn-buy" id="confirmBtn" onclick="confirmPayment()" style="margin-top:1rem">
+        我已支付，获取卡密
+      </button>
+    </div>
+  </div>
+
+  <footer class="shop-footer">
+    <div class="wrap">
+      <p>AuroraNEL · <a href="https://github.com/AuroraNEL" target="_blank">GitHub</a> · <a href="/#contact">联系作者</a></p>
+      <p style="margin-top:.5rem;color:var(--muted);font-size:.78rem">
+        支付成功后卡密自动显示 · 也可通过邮箱接收
+      </p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
+  <script>
+    // ==================== Config ====================
+    const SUPABASE_URL = 'https://fgbkdeqjtmtqxodtqnqz.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZnYmtkZXFqdG10cXhvZHRxbnF6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxNDg2MjEsImV4cCI6MjA5NTcyNDYyMX0.6aVifVkYH2iXkMaJ9rGBAvcKIgDLtwPAUwLa8Z7TUWY';
+
+    // 易支付配置
+    const YIPAY_PID = '5970';
+    const YIPAY_KEY = 'sqtrgNsHHtNLBBh267AtoFJQwOUok6b8';
+    const YIPAY_API = 'https://www.ezfpy.cn/submit.php';  // HTTPS 接口
+    const YIPAY_NOTIFY_URL = 'https://store.alwayscrying.art/api/callback.php';
+    const YIPAY_RETURN_URL = 'https://store.alwayscrying.art/shop.html';
+
+    let currentOrderId = null;
+    let pollTimer = null;
+    let countdownTimer = null;
+
+    // ==================== Modal ====================
+    function openBuyModal() {
+      document.getElementById('buyModal').classList.add('show');
+      generateOrder();
+    }
+
+    function closeBuyModal() {
+      document.getElementById('buyModal').classList.remove('show');
+      if (pollTimer) clearInterval(pollTimer);
+      if (countdownTimer) clearInterval(countdownTimer);
+      resetBuyModal();
+    }
+
+    function resetBuyModal() {
+      currentOrderId = null;
+      document.getElementById('qrImage').src = '';
+      document.getElementById('buyStatus').className = 'status-msg';
+      document.getElementById('buyKey').className = 'key-display';
+      document.getElementById('confirmBtn').disabled = false;
+      document.getElementById('confirmBtn').textContent = '我已支付，获取卡密';
+    }
+
+    // ==================== Create Order ====================
+    async function generateOrder() {
+      showBuyStatus('正在生成订单...', 'info');
+
+      try {
+        const email = document.getElementById('buyerEmail').value.trim();
+
+        // Create order in Supabase
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/orders`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=representation'
+          },
+          body: JSON.stringify({
+            product_id: '00000000-0000-0000-0000-000000000001',
+            customer_email: email || null,
+            amount: 0.01,
+            status: 'pending',
+            payment_method: 'yipay'
+          })
+        });
+
+        if (!res.ok) {
+          const errText = await res.text();
+          throw new Error(errText || 'Failed to create order');
+        }
+
+        const order = await res.json();
+        // Supabase returns an array
+        currentOrderId = Array.isArray(order) ? order[0].id : order.id;
+
+        // Generate Yipay QR using HTTPS API
+        const signStr = currentOrderId + '|alipay|' + YIPAY_PID + '|' + YIPAY_KEY;
+        const sign = CryptoJS.MD5(signStr).toString();
+
+        // 使用易支付 HTTPS 接口生成支付链接
+        const payData = `${YIPAY_API}?pid=${YIPAY_PID}&type=alipay&out_trade_no=${encodeURIComponent(currentOrderId)}&notify_url=${encodeURIComponent(YIPAY_NOTIFY_URL)}&return_url=${encodeURIComponent(YIPAY_RETURN_URL)}&name=${encodeURIComponent('AuroraNEL 永久授权')}&money=0.01&sign=${sign}`;
+
+        // 使用 qrserver.com 生成二维码（HTTPS）
+        document.getElementById('qrImage').src =
+          `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(payData)}`;
+
+        showBuyStatus('请扫描二维码完成支付', 'info');
+        startCountdown(300);
+        startPolling();
+
+      } catch (err) {
+        showBuyStatus('订单生成失败: ' + err.message, 'error');
+      }
+    }
+
+    // ==================== Countdown ====================
+    function startCountdown(seconds) {
+      if (countdownTimer) clearInterval(countdownTimer);
+      let remaining = seconds;
+
+      countdownTimer = setInterval(() => {
+        remaining--;
+        const m = Math.floor(remaining / 60);
+        const s = remaining % 60;
+        document.getElementById('qrTimer').textContent =
+          `请在 ${m}:${s.toString().padStart(2, '0')} 内完成支付`;
+
+        if (remaining <= 0) {
+          clearInterval(countdownTimer);
+          closeBuyModal();
+          alert('订单超时，请重新购买');
+        }
+      }, 1000);
+    }
+
+    // ==================== Poll Order ====================
+    function startPolling() {
+      pollTimer = setInterval(async () => {
+        if (!currentOrderId) return;
+
+        try {
+          const res = await fetch(
+            `${SUPABASE_URL}/rest/v1/orders?id=eq.${currentOrderId}&select=status,card_key`,
+            {
+              headers: {
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+              }
+            }
+          );
+
+          const orders = await res.json();
+          if (!orders || orders.length === 0) return;
+
+          const order = orders[0];
+
+          if (order.status === 'shipped' && order.card_key) {
+            clearInterval(pollTimer);
+            if (countdownTimer) clearInterval(countdownTimer);
+
+            showBuyKey(order.card_key);
+            showBuyStatus('🎉 支付成功！永久卡密已生成', 'success');
+
+            localStorage.setItem('aurora_key_' + currentOrderId, order.card_key);
+            localStorage.setItem('aurora_key_time', new Date().toLocaleString());
+
+            document.getElementById('confirmBtn').disabled = true;
+            document.getElementById('confirmBtn').textContent = '已获取卡密';
+          }
+        } catch (err) {
+          console.error('Poll error:', err);
+        }
+      }, 2000);
+    }
+
+    // ==================== Confirm Payment ====================
+    function confirmPayment() {
+      const key = localStorage.getItem('aurora_key_' + currentOrderId);
+      if (key) {
+        showBuyKey(key);
+        showBuyStatus('卡密已从本地记录中恢复', 'success');
+      } else {
+        showBuyStatus('正在核实支付状态...', 'info');
+      }
+    }
+
+    // ==================== Query Order ====================
+    async function queryOrder(e) {
+      e.preventDefault();
+      const email = document.getElementById('queryEmail').value.trim();
+      const statusEl = document.getElementById('queryStatus');
+      const keyEl = document.getElementById('queryKey');
+
+      statusEl.className = 'status-msg show info';
+      statusEl.textContent = '查询中...';
+      keyEl.className = 'key-display';
+
+      // Check localStorage first
+      const localKeys = Object.keys(localStorage).filter(k => k.startsWith('aurora_key_'));
+      if (localKeys.length > 0) {
+        const key = localStorage.getItem(localKeys[0]);
+        keyEl.textContent = key;
+        keyEl.classList.add('show');
+        statusEl.className = 'status-msg show success';
+        statusEl.textContent = '找到历史订单（本地缓存）';
+        return;
+      }
+
+      // Query Supabase
+      if (email) {
+        try {
+          const res = await fetch(
+            `${SUPABASE_URL}/rest/v1/orders?customer_email=eq.${encodeURIComponent(email)}&select=id,status,card_key,created_at&order=created_at.desc&limit=5`,
+            {
+              headers: {
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+              }
+            }
+          );
+          const orders = await res.json();
+
+          if (orders && orders.length > 0) {
+            const shippedOrder = orders.find(o => o.status === 'shipped' && o.card_key);
+            if (shippedOrder) {
+              keyEl.textContent = shippedOrder.card_key;
+              keyEl.classList.add('show');
+              statusEl.className = 'status-msg show success';
+              statusEl.textContent = '找到已发货订单';
+              return;
+            }
+          }
+
+          statusEl.className = 'status-msg show error';
+          statusEl.textContent = '未找到已完成的订单';
+        } catch (err) {
+          statusEl.className = 'status-msg show error';
+          statusEl.textContent = '查询失败: ' + err.message;
+        }
+      } else {
+        statusEl.className = 'status-msg show error';
+        statusEl.textContent = '未找到本地缓存，请输入邮箱查询';
+      }
+    }
+
+    // ==================== Helpers ====================
+    function showBuyStatus(msg, type) {
+      const el = document.getElementById('buyStatus');
+      el.textContent = msg;
+      el.className = `status-msg show ${type}`;
+    }
+
+    function showBuyKey(key) {
+      const el = document.getElementById('buyKey');
+      el.textContent = key;
+      el.classList.add('show');
+    }
+
+    // Close modal on overlay click
+    document.getElementById('buyModal').addEventListener('click', function(e) {
+      if (e.target === this) closeBuyModal();
+    });
+
+    // Nav toggle
+    document.querySelector('.nav-toggle').addEventListener('click', function() {
+      const nav = document.getElementById('navLinks');
+      nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+    });
+  </script>
+</body>
+</html>
